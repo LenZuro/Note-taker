@@ -45,3 +45,67 @@ const deleteNote =  (id) =>
             "Content-Type": "Application/json",
         },
     });
+
+    const renderNote = () => {
+        hide(noteSaveBtn);
+
+        if (activeNotes.id) {
+            noteTitle.setAttribute("readonly" , true);
+            noteBody.setAttribute("readonly" , true);
+            noteTitle.value = activeNotes.title;
+            noteBody.value = activeNotes.body;
+        }else{
+            noteTitle.removeAttreibute("readonly");
+            noteBody.removeAttreibute("readonly");
+            noteTitle.value = "";
+            noteBody.value = "";
+        }
+    };
+
+    const handelNoteSave = () => {
+        const newNote = {
+            title: noteTitle.value,
+            text: noteBody.value,
+        };
+        saveNote(newNote).then(() => {
+            getAndRenderNotes();
+            renderNote();
+        });
+    };
+
+    const handelNoteDelete = (e) => {
+        e.stopPropagation();
+
+        const note = e.target;
+        const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
+
+        if (activeNotes.id === noteId) {
+            activeNotes = {};
+        }
+
+        deleteNote(noteId).then(() => {
+            getAndRenderNotes();
+            renderNote();
+        });
+    };
+
+    const handelNoteView = (e) => {
+        e.preventDefault();
+        activeNotes = JSON.parse(e.target.parentElement.getAttribute('data-note'));
+        renderNote();
+    };
+
+    const handelNewNoteView = (e) => {
+        activeNotes = {};
+        renderNote();
+    };
+
+    const handelRenderSaveBtn = () => {
+        if(!noteTitle.value.trim() || !noteBody.value.trim()){
+            hide(noteSaveBtn);
+        }else{
+            show(noteSaveBtn);
+        }
+    };
+
+    
