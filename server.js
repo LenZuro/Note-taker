@@ -27,8 +27,9 @@ app.get('/notes', (req,res) =>
 
 app.get('/api/notes' , function (req,res){
     fs.readFile("develop/db/db.json" , "utf8", (err ,data) => {
-        let jsonData = JSON.parse(data);
         console.log(jsonData);
+       let jsonData = JSON.parse(data);
+       // console.log(jsonData);
         res.json(jsonData);
     });
 });
