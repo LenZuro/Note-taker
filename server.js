@@ -13,13 +13,16 @@ const app = express();
 
 
 app.use(express.json());
-app.use(espress.urlencoded({ extended: true}));
+app.use(express.urlencoded({ extended: true}));
 
 
 app.use(express.static('develop/pub'));
 
 app.get('/', (req,res) => 
     res.sendFile(path.join(__dirname, "develop/pub/index.html"))
+);
+app.get('/notes', (req,res) => 
+    res.sendFile(path.join(__dirname, "develop/pub/notes.html"))
 );
 
 app.get('/api/notes' , function (req,res){
